@@ -1,0 +1,17 @@
+[Unit]
+Description=Parity Ethereum client
+Documentation=https://wiki.parity.io
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/parity  --jsonrpc-apis "all" --jsonrpc-cors " all " --jsonrpc-hosts "all" --jsonrpc-interface "all" --tracing  "off"  --fat-db  "off"  --pruning  "fast" --pruning-history  8  --pruning-memory  32  --db-compaction  "ssd" --ws-interface all    --ws-port 8546 --ws-origins all -d /root/.parity
+
+
+Restart=on-failure
+# SIGHUP gives parity time to exit cleanly before SIGKILL
+KillSignal=SIGHUP
+
+[Install]
+WantedBy=multi-user.target
+

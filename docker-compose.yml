@@ -1,0 +1,98 @@
+version: '2'
+services:
+  contract_observer:
+    image: ndexnetwork/backend
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      HTTP_PROVIDER_URL: ${HTTP_PROVIDER_URL}
+      WS_PROVIDER_URL: ${WS_PROVIDER_URL}
+    links:
+      - postgres
+      - redis
+    command: >
+      python3 -m app.services.contract_observer
+
+  etherdelta_observer:
+    image: ndexnetwork/backend
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      HTTP_PROVIDER_URL: ${HTTP_PROVIDER_URL}
+    links:
+      - postgres
+      - redis
+    command: >
+      python3 -m app.services.etherdelta_observer
+
+  huey_consumer:
+    image: ndexnetwork/backend
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      HTTP_PROVIDER_URL: ${HTTP_PROVIDER_URL}
+    links:
+      - postgres
+      - redis
+    command: >
+      huey_consumer.py app.services.huey_consumer.huey -w ${HUEY_CONCURRENCY} -k greenlet
+
+  ticker:
+    image: ndexnetwork/backend
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      HTTP_PROVIDER_URL: ${HTTP_PROVIDER_URL}
+    links:
+      - postgres
+    command: >
+      python3 -m app.services.ticker
+
+  websocket_server:
+    image: ndexnetwork/backend
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      HTTP_PROVIDER_URL: ${HTTP_PROVIDER_URL}
+      ALLOWED_ORIGIN_SUFFIXES: ${ALLOWED_ORIGIN_SUFFIXES}
+    links:
+      - postgres
+      - redis
+    command: >
+      python3 -m app.services.websocket_server
+
+  postgres:
+    image: postgres:10-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - /var/lib/postgresql/data
+
+  redis:
+    image: redis:4.0-alpine
