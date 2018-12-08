@@ -29,10 +29,11 @@ Tips:
 ## Contributors
 * [Arseniy Ivanov](https://github.com/freeatnet)
 * [Jonathon Dunford](https://github.com/JonathonDunford)
+* [Tanvir Rahaman](https://github.com/bitbd83)
 
 ## License
 
-Copyright (C) 2018, Arseniy Ivanov and ForkDelta Contributors
+Copyright (C) 2018
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
@@ -47,4 +48,3 @@ Copyright (C) 2018, Arseniy Ivanov and ForkDelta Contributors
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-See the full [license.](LICENSE)
