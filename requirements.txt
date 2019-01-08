@@ -1,7 +1,7 @@
 ##
 # Web3
 web3==3.16.4
-eth_utils==1.0.0-beta.2
+eth_utils==1.4.1
 # Require this until we upgrade above dependecies
 eth-abi==2.0.0b4
 
