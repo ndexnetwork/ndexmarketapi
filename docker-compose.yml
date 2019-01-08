@@ -1,7 +1,7 @@
 version: '2'
 services:
   contract_observer:
-    image: ndexnetwork/backend
+    image: ndexnetwork/ndexmarketapi
     build: .
     depends_on:
       - postgres
@@ -19,7 +19,7 @@ services:
       python3 -m app.services.contract_observer
 
   etherdelta_observer:
-    image: ndexnetwork/backend
+    image: ndexnetwork/ndexmarketapi
     build: .
     depends_on:
       - postgres
@@ -36,7 +36,7 @@ services:
       python3 -m app.services.etherdelta_observer
 
   huey_consumer:
-    image: ndexnetwork/backend
+    image: ndexnetwork/ndexmarketapi
     build: .
     depends_on:
       - postgres
@@ -53,7 +53,7 @@ services:
       huey_consumer.py app.services.huey_consumer.huey -w ${HUEY_CONCURRENCY} -k greenlet
 
   ticker:
-    image: ndexnetwork/backend
+    image: ndexnetwork/ndexmarketapi
     build: .
     depends_on:
       - postgres
@@ -68,7 +68,7 @@ services:
       python3 -m app.services.ticker
 
   websocket_server:
-    image: ndexnetwork/backend
+    image: ndexnetwork/ndexmarketapi
     build: .
     depends_on:
       - postgres
