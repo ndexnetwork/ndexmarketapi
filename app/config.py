@@ -13,7 +13,7 @@ with open('etherdelta.abi.json') as f:
     import json
     ED_CONTRACT_ABI = json.load(f)
 ED_WS_SERVERS = [
-    "wss://api.ndexnetwork.com/socket.io/?EIO=3&transport=websocket",
+    "wss://api.ndex.market/socket.io/?EIO=3&transport=websocket",
 ]
 
 POSTGRES_HOST = "postgres"
